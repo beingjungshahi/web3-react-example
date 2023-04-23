@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react';
 import { hooks, metaMask } from '@/hooks/metaMask'
-import { Web3Provider } from '@ethersproject/providers';
-
-
-const { useIsActive, useProvider } = hooks;
 
 export default function ConnectButton() {
-
+    const { useIsActive, useProvider } = hooks;
     const isActive = useIsActive()
-
     const provider = useProvider()
-
     const [error, setError] = useState(undefined)
 
     useEffect(() => {
@@ -28,15 +22,10 @@ export default function ConnectButton() {
         }
     };
     const handleDisconnectWallet = () => {
-        try {
-            if (metaMask?.deactivate) {
-                void metaMask.deactivate();
-            } else {
-                void metaMask.resetState();
-            }
-        } catch (error) {
-            console.error('Error disconnecting MetaMask wallet:', error);
+        if (metaMask?.deactivate) {
+            void metaMask.deactivate();
         }
+        metaMask.resetState();
     };
 
     return (
